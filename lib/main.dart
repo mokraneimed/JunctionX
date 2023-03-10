@@ -1,9 +1,10 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:kyo/request.dart';
 import 'package:kyo/stt.dart';
 import 'package:kyo/recorder.dart';
+import 'package:speech_to_text/speech_to_text.dart' as sst;
+import 'package:kyo/screens/Auth page/sign_up.dart';
+import 'package:kyo/screens/Chat page/chat.dart';
 
 TextEditingController controller = TextEditingController();
 String generatedText = '';
@@ -19,12 +20,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: SafeArea(
+          child: ChatPage(),
+        ));
   }
 }
 
@@ -37,19 +39,36 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String speech = '';
+  late sst.SpeechToText _speech;
+  bool isListening = false;
+  String textSpeech = "c mon man";
+
+  void onListen() async {
+    if (!isListening) {
+      bool available = await _speech.initialize(
+          onStatus: (val) => print('on status $val'),
+          onError: (val) => print("on error $val"));
+      if (available) {
+        setState(() {
+          isListening = true;
+        });
+        _speech.listen(
+            listenFor: Duration(minutes: 10),
+            onResult: (val) => setState(() {
+                  textSpeech = val.recognizedWords;
+                }));
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
 
-    recorder.initRecorder();
+    _speech = sst.SpeechToText();
   }
 
   @override
-  void dispose() {
-    recorder.recorder.closeRecorder();
-    super.dispose();
-  }
-
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
@@ -57,7 +76,9 @@ class _MyHomePageState extends State<MyHomePage> {
           SizedBox(
             height: 100,
           ),
-          ElevatedButton(onPressed: toggleRecording, child: Icon(Icons.mic)),
+          ElevatedButton(
+              onPressed: onListen,
+              child: (_speech.isListening) ? Icon(Icons.mic) : Icon(Icons.abc)),
           TextField(
             controller: controller,
             decoration: InputDecoration(
@@ -76,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           SizedBox(height: 20),
           Text(
-            speech,
+            textSpeech,
             style: TextStyle(color: Colors.black),
           ),
           SizedBox(height: 20),
@@ -86,12 +107,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ],
       ),
-    );
-  }
-
-  Future toggleRecording() async {
-    SpeechApi.toggleRecording(
-      onResult: (speech) => setState(() => this.speech = speech),
     );
   }
 }
