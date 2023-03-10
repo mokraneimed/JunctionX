@@ -1,9 +1,14 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:kyo/request.dart';
-import 'package:flutter_sound/flutter_sound.dart';
+import 'package:kyo/stt.dart';
+import 'package:kyo/recorder.dart';
 
 TextEditingController controller = TextEditingController();
 String generatedText = '';
+final recorder = Recorder();
+
 void main() {
   runApp(const MyApp());
 }
@@ -31,14 +36,28 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final recorder = FlutterSoundRecorder();
+  String speech = '';
+  @override
+  void initState() {
+    super.initState();
+
+    recorder.initRecorder();
+  }
+
+  @override
+  void dispose() {
+    recorder.recorder.closeRecorder();
+    super.dispose();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
           SizedBox(
-            height: 50,
+            height: 100,
           ),
+          ElevatedButton(onPressed: toggleRecording, child: Icon(Icons.mic)),
           TextField(
             controller: controller,
             decoration: InputDecoration(
@@ -48,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ElevatedButton(
             onPressed: () async {
               final prompt = controller.text;
-              final text = await sendRequest(prompt);
+              final text = await sendRequest(speech);
               setState(() {
                 generatedText = text;
               });
@@ -57,11 +76,22 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           SizedBox(height: 20),
           Text(
+            speech,
+            style: TextStyle(color: Colors.black),
+          ),
+          SizedBox(height: 20),
+          Text(
             generatedText,
             style: TextStyle(color: Colors.black),
           ),
         ],
       ),
+    );
+  }
+
+  Future toggleRecording() async {
+    SpeechApi.toggleRecording(
+      onResult: (speech) => setState(() => this.speech = speech),
     );
   }
 }
