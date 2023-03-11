@@ -3,9 +3,9 @@ import 'package:kyo/request.dart';
 import 'package:kyo/stt.dart';
 import 'package:kyo/recorder.dart';
 import 'package:speech_to_text/speech_to_text.dart' as sst;
-import 'package:kyo/screens/Auth page/auth.dart';
 import 'package:kyo/screens/Chat page/chat.dart';
 import 'package:kyo/screens/Chat page/home_page.dart';
+import 'package:kyo/screens/mail page/inbox.dart';
 
 TextEditingController controller = TextEditingController();
 String generatedText = '';
@@ -89,10 +89,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ElevatedButton(
             onPressed: () async {
               final prompt = controller.text;
-              final text = await sendRequest(speech);
-              setState(() {
-                generatedText = text;
-              });
             },
             child: Text('Generate'),
           ),

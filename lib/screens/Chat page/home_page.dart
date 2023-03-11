@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:kyo/screens/Chat%20page/chat.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:kyo/screens/mail%20page/inbox.dart';
+
+List pages = [Container(), Inbox(), ChatPage(), Container()];
 
 class HomePage extends StatefulWidget {
   @override
@@ -20,7 +23,7 @@ class _HomePage extends State<HomePage> {
         onTap: (i) => setState(() => _currentIndex = i),
         items: [
           SalomonBottomBarItem(
-            icon: (_currentIndex == 1)
+            icon: (_currentIndex == 0)
                 ? Image.asset(
                     "assets/images/sel_home.png",
                     height: 24,
@@ -32,7 +35,7 @@ class _HomePage extends State<HomePage> {
                     width: 24,
                   ),
             title: Text(
-              "Chat",
+              "Home",
               style: TextStyle(color: Colors.white),
             ),
           ),
@@ -41,17 +44,17 @@ class _HomePage extends State<HomePage> {
           SalomonBottomBarItem(
             icon: (_currentIndex == 1)
                 ? Image.asset(
-                    "assets/images/sel_robot.png",
+                    "assets/images/sel_mail.png",
                     height: 24,
                     width: 24,
                   )
                 : Image.asset(
-                    "assets/images/uns_chat.png",
+                    "assets/images/uns_mail.png",
                     height: 24,
                     width: 24,
                   ),
             title: Text(
-              "Chat",
+              "Mail",
               style: TextStyle(color: Colors.white),
             ),
           ),
@@ -95,7 +98,7 @@ class _HomePage extends State<HomePage> {
           ),
         ],
       ),
-      body: ChatPage(),
+      body: pages[_currentIndex],
     );
   }
 }

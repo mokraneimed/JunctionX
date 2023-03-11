@@ -3,6 +3,8 @@ import 'package:speech_to_text/speech_to_text.dart' as sst;
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:kyo/request.dart';
 
+final dataService = DataService();
+
 class ChatPage extends StatefulWidget {
   @override
   const ChatPage({super.key});
@@ -18,6 +20,7 @@ class _ChatPage extends State<ChatPage> {
   String textSpeech = "c mon man";
   List prompts = [];
   List responses = [];
+  bool isLoading = false;
 
   void onListen() async {
     bool available = await _speech.initialize(
@@ -49,7 +52,6 @@ class _ChatPage extends State<ChatPage> {
       child: Column(
         children: [
           Container(
-            margin: EdgeInsets.only(bottom: 20),
             height: 80,
             child: Center(
                 child: Text(
@@ -96,7 +98,7 @@ class _ChatPage extends State<ChatPage> {
                                       color: Colors.black, fontSize: 20),
                                 ),
                               ),
-                            ),
+                            )
                           ],
                         )
                       : Align(
@@ -131,9 +133,8 @@ class _ChatPage extends State<ChatPage> {
               GestureDetector(
                 onTap: () async {
                   prompts.add(textSpeech);
-                  final text = await sendRequest(textSpeech);
-                  textSpeech = '';
-
+                  final text = await dataService.sendRequest(textSpeech);
+                  textSpeech = 'basics of dart';
                   setState(() {
                     generatedText = text;
                     responses.add(text);
