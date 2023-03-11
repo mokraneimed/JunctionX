@@ -17,12 +17,15 @@ class _Inbox extends State<Inbox> {
       body: Column(
         children: [
           Container(
-            height: 80,
+            margin: EdgeInsets.only(top: 50),
             child: Center(
                 child: Text(
-              "Voice GPT",
+              "Inbox",
               style: TextStyle(fontSize: 24),
             )),
+          ),
+          SizedBox(
+            height: 20,
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
@@ -70,16 +73,13 @@ class _Inbox extends State<Inbox> {
               ),
             ),
           ),
-          SizedBox(
-            height: 5,
-          ),
           Expanded(
             child: ListView.builder(
                 itemCount: 20,
                 itemBuilder: (BuildContext context, index) {
                   return (index == 0)
                       ? SizedBox(
-                          height: 20,
+                          height: 0,
                         )
                       : GestureDetector(onTap: () {}, child: Mail());
                 }),

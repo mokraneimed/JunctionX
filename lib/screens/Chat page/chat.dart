@@ -62,7 +62,8 @@ class _ChatPage extends State<ChatPage> {
       child: Column(
         children: [
           Container(
-            height: 80,
+            height: 90,
+            padding: EdgeInsets.only(top: 60),
             child: Center(
                 child: Text(
               "Voice GPT",
