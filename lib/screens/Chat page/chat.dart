@@ -143,10 +143,16 @@ class _ChatPage extends State<ChatPage> {
               GestureDetector(
                 onTap: () async {
                   if (!isLoading) {
-                    isLoading = true;
                     prompts.insert(0, textSpeech);
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return SimpleDialog();
+                        });
+
                     final text = await dataService
                         .sendRequest(generatedText + "\n" + textSpeech);
+                    Navigator.of(context).pop();
                     textSpeech = '';
                     setState(() {
                       generatedText = text;

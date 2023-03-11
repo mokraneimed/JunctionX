@@ -1,5 +1,6 @@
 import 'package:kyo/screens/mail page/mail.dart';
 import 'package:flutter/material.dart';
+import 'package:kyo/screens/mail page/generating_page.dart';
 
 class Inbox extends StatefulWidget {
   @override
@@ -80,7 +81,7 @@ class _Inbox extends State<Inbox> {
                       ? SizedBox(
                           height: 20,
                         )
-                      : Mail();
+                      : GestureDetector(onTap: () {}, child: Mail());
                 }),
           ),
         ],

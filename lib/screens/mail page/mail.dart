@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kyo/screens/mail page/generating_page.dart';
 
 class Mail extends StatelessWidget {
   const Mail({super.key});
@@ -34,7 +35,12 @@ class Mail extends StatelessWidget {
             Icon(Icons.star_border),
           ],
         ),
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => GenPage()),
+          );
+        },
       )),
     );
   }
