@@ -1,7 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kyo/screens/Auth page/text_field.dart';
 
-class SignIn extends StatelessWidget {
+class SignUpPage extends StatelessWidget {
+  final VoidCallback onClicked;
+  const SignUpPage({Key? key, required this.onClicked}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,6 +104,7 @@ class SignIn extends StatelessWidget {
                   text: 'Don\'t have an account ?',
                   children: [
                 TextSpan(
+                    recognizer: TapGestureRecognizer()..onTap = onClicked,
                     text: '  Sign up',
                     style: TextStyle(color: Color(0xFFF62F53), fontSize: 18))
               ]))

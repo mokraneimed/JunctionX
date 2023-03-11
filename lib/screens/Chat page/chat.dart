@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as sst;
+import 'package:avatar_glow/avatar_glow.dart';
+import 'package:kyo/request.dart';
 
 class ChatPage extends StatefulWidget {
   @override
@@ -10,11 +12,11 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPage extends State<ChatPage> {
-  String speech = '';
+  String generatedText = '';
   late sst.SpeechToText _speech;
   bool isListening = false;
   String textSpeech = "c mon man";
-  List prompts = ["uregfe"];
+  List prompts = [];
   List responses = [];
 
   void onListen() async {
@@ -42,43 +44,144 @@ class _ChatPage extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButton: FloatingActionButton(onPressed: onListen),
-        floatingActionButtonLocation:
-            FloatingActionButtonLocation.miniCenterFloat,
         body: Container(
-          decoration:
-              BoxDecoration(border: Border.all(color: Colors.black, width: 1)),
-          height: double.infinity,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+      height: 690,
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(bottom: 20),
+            height: 80,
+            child: Center(
+                child: Text(
+              "Voice GPT",
+              style: TextStyle(fontSize: 24),
+            )),
+          ),
+          Expanded(
+            child: ListView.separated(
+                itemBuilder: (BuildContext context, index) {
+                  return (index != prompts.length)
+                      ? Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Container(
+                                margin: EdgeInsets.fromLTRB(0, 0, 10, 25),
+                                padding: EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                    color: Color(0xFFF62F53),
+                                    borderRadius: BorderRadius.circular(20)),
+                                width: 300,
+                                child: Text(
+                                  prompts[index],
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                margin: EdgeInsets.fromLTRB(10, 0, 0, 25),
+                                padding: EdgeInsets.all(12),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                        width: 1, color: Color(0xFFDADADA))),
+                                width: 300,
+                                child: Text(
+                                  responses[index],
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 20),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )
+                      : Align(
+                          alignment: Alignment.centerRight,
+                          child: Container(
+                            margin: EdgeInsets.fromLTRB(0, 0, 10, 25),
+                            padding: EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                                color: Color(0xFFF62F53),
+                                borderRadius: BorderRadius.circular(20)),
+                            width: 300,
+                            child: Text(
+                              textSpeech,
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 20),
+                            ),
+                          ),
+                        );
+                },
+                separatorBuilder: (BuildContext context, index) {
+                  return SizedBox(
+                    height: 0,
+                  );
+                },
+                itemCount: prompts.length + 1),
+          ),
+          Row(
             children: [
-              Column(
-                children: List.generate(
-                  prompts.length,
-                  (index) {
-                    return Align(
-                      alignment: Alignment.centerRight,
-                      child: Container(
-                        margin: EdgeInsets.only(bottom: 30),
-                        color: Colors.red,
-                        width: 80,
-                        child: Text(prompts[index]),
-                      ),
-                    );
-                  },
-                ).toList(),
+              SizedBox(
+                width: 100,
               ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 30),
-                  color: Colors.red,
-                  width: 80,
-                  child: Text(textSpeech),
+              GestureDetector(
+                onTap: () async {
+                  prompts.add(textSpeech);
+                  final text = await sendRequest(textSpeech);
+                  textSpeech = '';
+
+                  setState(() {
+                    generatedText = text;
+                    responses.add(text);
+                  });
+                },
+                child: Material(
+                  elevation: 10.0,
+                  shadowColor: Color(0xFFF62F53),
+                  shape: CircleBorder(),
+                  child: CircleAvatar(
+                    backgroundColor: Colors.white,
+                    child: Icon(
+                      Icons.send,
+                      color: Colors.black,
+                    ),
+                    radius: 30.0,
+                  ),
                 ),
-              )
+              ),
+              SizedBox(
+                width: 20,
+              ),
+              GestureDetector(
+                onTap: onListen,
+                child: AvatarGlow(
+                  glowColor: Color(0xFFF62F53),
+                  animate: _speech.isListening,
+                  endRadius: 60.0,
+                  child: Material(
+                    elevation: 8.0,
+                    shadowColor: Color(0xFFF62F53),
+                    shape: CircleBorder(),
+                    child: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Image.asset(
+                        "assets/images/mic.png",
+                        height: 24,
+                        width: 24,
+                      ),
+                      radius: 30.0,
+                    ),
+                  ),
+                ),
+              ),
             ],
           ),
-        ));
+        ],
+      ),
+    ));
   }
 }

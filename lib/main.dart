@@ -3,8 +3,9 @@ import 'package:kyo/request.dart';
 import 'package:kyo/stt.dart';
 import 'package:kyo/recorder.dart';
 import 'package:speech_to_text/speech_to_text.dart' as sst;
-import 'package:kyo/screens/Auth page/sign_up.dart';
+import 'package:kyo/screens/Auth page/auth.dart';
 import 'package:kyo/screens/Chat page/chat.dart';
+import 'package:kyo/screens/Chat page/home_page.dart';
 
 TextEditingController controller = TextEditingController();
 String generatedText = '';
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         home: SafeArea(
-          child: ChatPage(),
+          child: HomePage(),
         ));
   }
 }
