@@ -1,6 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kyo/screens/Auth page/text_field.dart';
+import 'package:kyo/screens/Chat%20page/home_page.dart';
+import 'package:kyo/screens/Home page/home.dart';
 
 class SignUpPage extends StatelessWidget {
   final VoidCallback onClicked;
@@ -23,7 +25,7 @@ class SignUpPage extends StatelessWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: Padding(
-              padding: EdgeInsets.only(left: 50),
+              padding: EdgeInsets.only(left: 30),
               child: Text(
                 "Sign in",
                 style: TextStyle(fontSize: 24),
@@ -49,7 +51,12 @@ class SignUpPage extends StatelessWidget {
                   shadowColor: Color(0xFFF62F53),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12))),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
+              },
               child: Row(
                 children: [
                   SizedBox(
@@ -81,7 +88,12 @@ class SignUpPage extends StatelessWidget {
                   fixedSize: const Size(240, 70),
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12))),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
+              },
               child: Row(
                 children: [
                   SizedBox(

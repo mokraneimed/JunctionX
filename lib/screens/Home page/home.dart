@@ -17,7 +17,7 @@ class LandPage extends StatelessWidget {
               ),
             ),
             Positioned(
-              top: 35,
+              top: 45,
               child: Row(
                 children: [
                   SizedBox(
@@ -50,42 +50,64 @@ class LandPage extends StatelessWidget {
               ),
             ),
             Positioned(
-                left: 85,
-                bottom: 60,
-                child: Image.asset("assets/images/logo.png"))
+                left: 110,
+                bottom: 90,
+                child: Image.asset("assets/images/logo.png")),
+            Positioned(
+                bottom: 30,
+                left: 55,
+                child: Container(
+                  width: 300,
+                  child: Text(
+                    "Engage in a suggested discussion by the Virtual Assistant based on your interests. ",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                )),
           ],
         ),
-        SizedBox(
-          height: 30,
+        Stack(
+          children: [
+            Container(
+              height: 460,
+              width: double.infinity,
+              child: Image.asset(
+                "assets/images/robot.png",
+                fit: BoxFit.fill,
+              ),
+            ),
+            Positioned(
+              bottom: 50,
+              left: 105,
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFFF62F53),
+                      fixedSize: const Size(190, 60),
+                      elevation: 10,
+                      shadowColor: Color(0xFFF62F53),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40))),
+                  onPressed: () {},
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        "Get Started",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                      SizedBox(
+                        width: 15,
+                      ),
+                      Icon(
+                        Icons.mic,
+                        color: Colors.white,
+                      )
+                    ],
+                  )),
+            ),
+          ],
         ),
-        Image.asset("assets/images/book.png"),
-        SizedBox(
-          height: 25,
-        ),
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFF62F53),
-                fixedSize: const Size(240, 70),
-                elevation: 10,
-                shadowColor: Color(0xFFF62F53),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(40))),
-            onPressed: () {},
-            child: Row(
-              children: [
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  "Inbound Marketing",
-                  style: TextStyle(fontSize: 18),
-                ),
-                SizedBox(
-                  width: 15,
-                ),
-                Icon(Icons.download)
-              ],
-            )),
       ],
     ));
   }

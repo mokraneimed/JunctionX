@@ -7,7 +7,7 @@ class CustomTextField extends StatelessWidget {
     return Container(
         decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(12)),
-        width: 300,
+        width: 340,
         child: TextField(
           decoration: InputDecoration(
             hintText: "abv@gmail.com",

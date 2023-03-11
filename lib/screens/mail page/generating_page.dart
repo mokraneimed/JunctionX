@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kyo/request.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 String email =
     "Greetings,\n\nWe’re delighted to have you as an accepted participant for JunctionX Algiers this year.  This edition of Junction is hybrid meaning that it is divided into two parts, the first will be online and will go on from Thursday evening March 9th throughout the weekend to Saturday night March 11th. The teams with the best projects will then be selected to participate in the physical event that will happen at ICT Maghreb at the Palace of Culture Moufdi Zakaria on March 14-16th 2023.";
@@ -18,7 +19,7 @@ class _GenPage extends State<GenPage> {
       body: Column(
         children: [
           SizedBox(
-            height: 20,
+            height: 30,
           ),
           Expanded(
             child: ListView(children: [
@@ -55,11 +56,7 @@ class _GenPage extends State<GenPage> {
                               shadowColor: Color(0xFFF62F53),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(12))),
-                          onPressed: () async {
-                            response = await dataService.sendRequest(
-                                "Generate a response to this email:\n" + email);
-                            setState(() {});
-                          },
+                          onPressed: generate,
                           child: Text("generate")),
                     ),
                   ],
@@ -90,5 +87,27 @@ class _GenPage extends State<GenPage> {
         ],
       ),
     );
+  }
+
+  void generate() async {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Center(
+              child: Container(
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.3),
+                  height: 175,
+                  width: 175,
+                  child: LoadingIndicator(
+                    indicatorType: Indicator.circleStrokeSpin,
+                    colors: [Color(0xFFF62F53)],
+                    strokeWidth: 2,
+                  )));
+        });
+    response = await dataService
+        .sendRequest("Generate a response to this email:\n" + email);
+    Navigator.of(context).pop();
+    setState(() {});
   }
 }

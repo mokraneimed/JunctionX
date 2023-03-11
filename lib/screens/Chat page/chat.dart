@@ -3,6 +3,7 @@ import 'package:speech_to_text/speech_to_text.dart' as sst;
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:kyo/request.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 final dataService = DataService();
 
@@ -147,7 +148,18 @@ class _ChatPage extends State<ChatPage> {
                     showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return SimpleDialog();
+                          return Center(
+                              child: Container(
+                                  margin: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height *
+                                          0.3),
+                                  height: 175,
+                                  width: 175,
+                                  child: LoadingIndicator(
+                                    indicatorType: Indicator.circleStrokeSpin,
+                                    colors: [Color(0xFFF62F53)],
+                                    strokeWidth: 2,
+                                  )));
                         });
 
                     final text = await dataService
