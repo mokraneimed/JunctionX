@@ -3,8 +3,9 @@ import 'package:kyo/screens/Chat%20page/chat.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:kyo/screens/mail%20page/inbox.dart';
+import 'package:kyo/screens/Home%20page/home.dart';
 
-List pages = [Container(), Inbox(), ChatPage(), Container()];
+List pages = [LandPage(), Inbox(), ChatPage(), Container()];
 
 class HomePage extends StatefulWidget {
   @override

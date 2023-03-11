@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:speech_to_text/speech_to_text.dart' as sst;
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:kyo/request.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 final dataService = DataService();
 
@@ -14,13 +15,21 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPage extends State<ChatPage> {
+  final FlutterTts player = FlutterTts();
   String generatedText = '';
   late sst.SpeechToText _speech;
   bool isListening = false;
-  String textSpeech = "c mon man";
+  String textSpeech = "";
   List prompts = [];
   List responses = [];
   bool isLoading = false;
+
+  void speak(String text) async {
+    await player.setLanguage("en-US");
+    await player.setVoice({"name": "John", "locale": "en-AU"});
+    await player.setPitch(1);
+    await player.speak(text);
+  }
 
   void onListen() async {
     bool available = await _speech.initialize(
@@ -61,8 +70,9 @@ class _ChatPage extends State<ChatPage> {
           ),
           Expanded(
             child: ListView.separated(
+                reverse: true,
                 itemBuilder: (BuildContext context, index) {
-                  return (index != prompts.length)
+                  return (!(index == 0))
                       ? Column(
                           children: [
                             Align(
@@ -75,7 +85,7 @@ class _ChatPage extends State<ChatPage> {
                                     borderRadius: BorderRadius.circular(20)),
                                 width: 300,
                                 child: Text(
-                                  prompts[index],
+                                  prompts[index - 1],
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 20),
                                 ),
@@ -93,7 +103,7 @@ class _ChatPage extends State<ChatPage> {
                                         width: 1, color: Color(0xFFDADADA))),
                                 width: 300,
                                 child: Text(
-                                  responses[index],
+                                  responses[index - 1],
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 20),
                                 ),
@@ -132,20 +142,27 @@ class _ChatPage extends State<ChatPage> {
               ),
               GestureDetector(
                 onTap: () async {
-                  prompts.add(textSpeech);
-                  final text = await dataService.sendRequest(textSpeech);
-                  textSpeech = 'basics of dart';
-                  setState(() {
-                    generatedText = text;
-                    responses.add(text);
-                  });
+                  if (!isLoading) {
+                    isLoading = true;
+                    prompts.insert(0, textSpeech);
+                    final text = await dataService
+                        .sendRequest(generatedText + "\n" + textSpeech);
+                    textSpeech = '';
+                    setState(() {
+                      generatedText = text;
+                      responses.insert(0, text);
+                      speak(text);
+                      isLoading = false;
+                    });
+                  }
                 },
                 child: Material(
                   elevation: 10.0,
                   shadowColor: Color(0xFFF62F53),
                   shape: CircleBorder(),
                   child: CircleAvatar(
-                    backgroundColor: Colors.white,
+                    backgroundColor:
+                        (!isLoading) ? Colors.white : Colors.grey[700],
                     child: Icon(
                       Icons.send,
                       color: Colors.black,
@@ -168,7 +185,9 @@ class _ChatPage extends State<ChatPage> {
                     shadowColor: Color(0xFFF62F53),
                     shape: CircleBorder(),
                     child: CircleAvatar(
-                      backgroundColor: Colors.white,
+                      backgroundColor: (!_speech.isListening)
+                          ? Colors.white
+                          : Color(0xFFF62F53),
                       child: Image.asset(
                         "assets/images/mic.png",
                         height: 24,
