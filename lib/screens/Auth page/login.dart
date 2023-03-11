@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:kyo/screens/Auth page/text_field.dart';
+import 'package:kyo/screens/Chat%20page/home_page.dart';
 
 class LoginPage extends StatelessWidget {
   final VoidCallback onClicked;
@@ -58,7 +59,12 @@ class LoginPage extends StatelessWidget {
                 shadowColor: Color(0xFFF62F53),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12))),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            },
             child: Row(
               children: [
                 SizedBox(
@@ -90,7 +96,12 @@ class LoginPage extends StatelessWidget {
                 fixedSize: const Size(240, 70),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12))),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            },
             child: Row(
               children: [
                 SizedBox(
