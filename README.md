@@ -4,13 +4,13 @@ A new Flutter project.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+to use the app:
+- install flutter
+- clone the repo
+- install the dependencies
+- run the app
+- the authentification is not ready yet, so to use the app press any button in the authentification page like "Sign in" button (like in the demo), and it will take you to the home page.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Talk GPT provides a voice chat with Chat GPT model using its API, where you press the mic button to put your voice as input using Speech_To_Text package in flutter, and you can change it if it doesn't look like what you want using the mic button also. After you confirm your input, you press the send button to send text to Chat GPT API with http request. LoadingIndicator will pop while you're waiting for the response. Using the Flutter_tts package, the text response will transform to voice and you can hear it with the text of course. Also we take in consideration that the user asks a question about the previous response. About the mail option, we show the user emails from his account (we haven't implemented it yet) and he can generate a response for any email using the "generate" button. If the response doesn't satisfy the user, he can generate another response. Also, we plan to add voice to generate other option (make the response shorter, make it more formal, ...). 
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
