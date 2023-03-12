@@ -8,6 +8,7 @@ to use the app:
 - install flutter
 - clone the repo
 - install the dependencies
+- due to OpenAI rules, you have to use your own openAI secret key and put it in request.dart file in apiKey variable exactly line 6
 - run the app
 - the authentification is not ready yet, so to use the app press any button in the authentification page like "Sign in" button (like in the demo), and it will take you to the home page.
 
